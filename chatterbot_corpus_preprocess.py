@@ -1,12 +1,12 @@
 #coding=utf-8
 import yaml
 import os
-import pickle
+from util import saveQA
 
-DATA_DIR = "./data/chatterbot/"
-OUTPUT_FILE = "./data/chatterbot.pkl"
+DATA_DIR = r"./data/chatterbot/"
+OUTPUT_FILE = r"./data/chatterbot.pkl"
 
-def read_conversion(path):
+def read_conversation(path):
 	# 读取对话
 	path = os.path.join(DATA_DIR, path)
 	# print(path)
@@ -40,13 +40,6 @@ def list_file():
 	filelist = os.listdir(DATA_DIR)
 	return filelist
 
-def saveQA(questions, answers):
-	# 转储成pkl文件，直接保存list方便
-	f = open(OUTPUT_FILE,'wb')
-	pickle.dump((questions, answers), f)
-	f.close()
-	print("dump finish")
-
 if __name__ == "__main__":
 	# load all file
 	files = list_file()
@@ -54,8 +47,8 @@ if __name__ == "__main__":
 	questions = []
 	answers = []
 	for file_path in files:
-		Q, A = read_conversion(file_path)
+		Q, A = read_conversation(file_path)
 		questions.extend(Q)
 		answers.extend(A)
-	saveQA(questions, answers)
+	saveQA(OUTPUT_FILE, questions, answers)
 	print("nums of questions:{0:d},nums of answers:{1:d}".format(len(questions), len(answers)))
